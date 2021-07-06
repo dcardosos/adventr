@@ -1,6 +1,16 @@
 library(tidyverse)
 
 # part 1 - primeira forma
+
+leitura <- function(){
+  
+  readr::read_lines('input') %>%
+    as_tibble() %>%
+    mutate(
+      across(value, as.double))
+}
+
+
 processadora <- function(entrada){
   
   entrada %>% 
@@ -18,11 +28,7 @@ processadora <- function(entrada){
 }
 
 day1 <- function(){
-  
-  readr::read_lines('input') %>%
-    as_tibble() %>%
-    mutate(
-      across(value, as.double)) %>%
+ leitura() %>%
     processadora()
 }
 
@@ -48,10 +54,7 @@ processadorav2 <- function(entrada){
 }
 
 day1_v2 <- function(){
-  readr::read_lines('input') %>%
-    as_tibble() %>%
-    mutate(
-      across(value, as.double)) %>%
+  leitura() %>%
     processadorav2()
 }
 
@@ -78,12 +81,8 @@ processadora_pt2 <- function(entrada){
 }
 
 day1_pt2 <- function(){
-  readr::read_lines('input') %>%
-    as_tibble() %>%
-    mutate(
-      across(value, as.double)) %>%
+ leitura() %>%
     processadora_pt2()
-
 }
 
 day1_pt2()
