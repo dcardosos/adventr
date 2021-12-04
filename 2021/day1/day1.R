@@ -1,38 +1,37 @@
 library(magrittr)
 
-
-# parte 1 -----------------------------------------------------------------
-montadora <- function(vetor){
+# part 1 -----------------------------------------------------------------
+fitter <- function(vector){
     
   tibble::tibble(
-    beeps = as.integer(vetor),
+    beeps = as.integer(vector),
     previous_beeps = dplyr::lag(beeps)
     )
 }
 
-validadora <- function(tb){
+validator <- function(tb){
   
   tb %>% 
     dplyr::mutate(direction = beeps > previous_beeps) %>%
     dplyr::filter(direction) %>% 
-    dplyr::summarise(q_increased = dplyr::n()) %>% 
-    dplyr::pull(q_increased)
+    dplyr::summarise(n_increased = dplyr::n()) %>% 
+    dplyr::pull(n_increased)
 }
   
-aplicacao <- function(){
+application <- function(){
   
   readr::read_lines("input.txt") %>% 
-    montadora() %>% 
-    validadora()
+    fitter() %>% 
+    validator()
 }
 
-aplicacao()
+application()
 
 # parte 2 -----------------------------------------------------------------
-montadora2 <- function(vetor){
+fitter2 <- function(vector){
   
   tibble::tibble(
-    beep = as.integer(vetor),
+    beep = as.integer(vector),
     next_beep = dplyr::lead(beep),
     next_next_beep = dplyr::lead(next_beep)
   ) %>% 
@@ -42,19 +41,19 @@ montadora2 <- function(vetor){
     dplyr::mutate(lag_sum_beeps = dplyr::lag(sum_beeps))
 }
 
-validadora2 <- function(tb){
+validator2 <- function(tb){
   tb %>% 
     dplyr::mutate(direction = sum_beeps > lag_sum_beeps) %>% 
     dplyr::filter(direction) %>% 
-    dplyr::summarise(q_increased = dplyr::n()) %>% 
-    dplyr::pull(q_increased)
+    dplyr::summarise(n_increased = dplyr::n()) %>% 
+    dplyr::pull(n_increased)
 }
 
-aplicacao2 <- function(){
+application2 <- function(){
   
   readr::read_lines("input.txt") %>% 
-    montadora2() %>% 
-    validadora2()
+    fitter2() %>% 
+    validator2()
 }
 
-aplicacao2()
+application2()
